@@ -68,9 +68,54 @@ def is_valid_letter(first_letter_player, last_letter_current):
     return True
 
 
-def main():
-    pass
+def city_game():
+    print('Добро пожаловать в игру "Города"!')
+    cities = load_cities()
+    cities_lower = [word.lower() for word in cities]
+    used_cities = []
+
+    current_city = random.choice(cities)
+    print(f"Я начну с города {current_city}")
+    used_cities.append(current_city.lower())
+
+    while True:
+        if no_cities_available(current_city[-1], cities, used_cities):
+            print(f"Городов на букву {current_city[-1]} больше нет! Ты проиграл!")
+            break
+
+        input_city = input("Ваш ход: ").strip().lower()
+
+        if not input_city:
+            continue
+
+        player_city = input_city.lower()
+
+        if end_game(player_city):
+            break
+
+        if is_city_used(player_city, used_cities):
+            continue
+
+        if not (is_city(player_city, cities_lower)):
+            continue
+
+        first_letter_player = player_city[0].lower()
+        last_letter_current = get_last_letter(current_city)
+
+        if not (is_valid_letter(first_letter_player, last_letter_current)):
+            continue
+
+        used_cities.append(player_city.lower())
+        current_city = player_city
+        current_city = computer_move(cities, used_cities, current_city)
+        if current_city == 0:
+            break
+
+        if not cities:
+            print("Поздравляем, Вы выиграли! Больше не осталось городов.")
+            break
+
 
 
 if __name__ == "__main__":
-    main()
+    city_game()
