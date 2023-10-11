@@ -5,7 +5,9 @@ def load_cities():
 
 
 def get_last_letter(current_city):
-    last_letter_current = current_city[-1]
+    last_letter_current = current_city[-1].lower()
+    if last_letter_current == "ы" or last_letter_current == "ь":
+        last_letter_current = current_city[-2].lower()
     return last_letter_current
 
 
